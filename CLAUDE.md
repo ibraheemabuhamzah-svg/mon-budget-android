@@ -115,6 +115,7 @@ En plus de la PWA, un véritable `.apk` Android installable est généré avec *
 - **Package ID** : `io.github.ibraheemabuhamzah_svg.twa`
 - **`minSdkVersion`** : 24 (Android 7.0+) — la valeur par défaut de 21 proposée par Bubblewrap est trop basse pour la dépendance `androidbrowserhelper`.
 - **Mode plein écran sans barre d'adresse** : nécessite `.well-known/assetlinks.json` à la racine du site (committé dans ce dépôt), qui lie l'empreinte SHA-256 du certificat de signature de l'APK à ce domaine. **`.nojekyll`** est aussi requis à la racine : sans lui, Jekyll (moteur par défaut de GitHub Pages) ignore silencieusement tout dossier commençant par un point, empêchant `.well-known/` d'être servi (404).
+- **Téléchargement** : l'APK signé est publié en tant que [GitHub Release](https://github.com/ibraheemabuhamzah-svg/mon-budget-android/releases/latest) (pas commité dans le dépôt — `android-twa-build/` reste exclu via `.gitignore`). Pour publier une nouvelle version après un rebuild : `gh release create vX.Y.Z android-twa-build/app-release-signed.apk --repo ibraheemabuhamzah-svg/mon-budget-android --title "Mon Budget vX.Y.Z" --notes "..."`.
 - **Reconstruire l'APK** (ex. après une mise à jour du site) :
   ```bash
   cd "Mon-budget android/android-twa-build"
