@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.ibraheemabuhamzah_svg.twa",
+      "sha256_cert_fingerprints": [
+        "10:87:04:1C:7F:EF:88:77:B8:17:70:FD:E5:60:B9:4C:79:9A:38:11:D9:9D:5E:18:68:80:76:42:A0:58:12:AB"
+      ]
+    }
+  }
+]
