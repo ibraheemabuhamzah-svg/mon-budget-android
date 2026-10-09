@@ -106,3 +106,20 @@ python3 -m http.server 8788
 ```
 
 Puis ouvrir `http://localhost:8788/index.html`. Toujours passer par un serveur HTTP local (`file://` casse le CDN Chart.js et l'enregistrement du service worker).
+
+## Application Android (.apk)
+
+En plus de la PWA, un véritable `.apk` Android installable est généré avec **Bubblewrap** (Trusted Web Activity officielle de Google) : l'app Android ouvre le site déjà déployé dans une WebView système, sans dupliquer le code.
+
+- **Dossier de build** : `android-twa-build/` (exclu de git) — contient le projet Android généré, le keystore de signature (`android.keystore`) et les fichiers `app-release-signed.apk` / `app-release-bundle.aab` produits.
+- **Package ID** : `io.github.ibraheemabuhamzah_svg.twa`
+- **`minSdkVersion`** : 24 (Android 7.0+) — la valeur par défaut de 21 proposée par Bubblewrap est trop basse pour la dépendance `androidbrowserhelper`.
+- **Mode plein écran sans barre d'adresse** : nécessite `.well-known/assetlinks.json` à la racine du site (committé dans ce dépôt), qui lie l'empreinte SHA-256 du certificat de signature de l'APK à ce domaine. **`.nojekyll`** est aussi requis à la racine : sans lui, Jekyll (moteur par défaut de GitHub Pages) ignore silencieusement tout dossier commençant par un point, empêchant `.well-known/` d'être servi (404).
+- **Reconstruire l'APK** (ex. après une mise à jour du site) :
+  ```bash
+  cd "Mon-budget android/android-twa-build"
+  ~/.local/bin/bubblewrap build
+  ```
+  Redemande les mots de passe du keystore à chaque build (saisie interactive, jamais stockée en clair).
+- **⚠️ Keystore** : `android-twa-build/android.keystore` est **essentiel à conserver**. Toute future mise à jour de l'app doit être signée avec cette même clé, sinon Android refusera d'installer la mise à jour par-dessus l'app existante (il faudrait désinstaller puis réinstaller, perdant les données locales de l'utilisateur).
+- **Outils installés sans sudo/Homebrew pour ce build** : Node.js (`~/.local/lib/node-v24.21.0-darwin-x64`, symlinké dans `~/.local/bin`), Bubblewrap CLI (`npm install -g @bubblewrap/cli`), JDK 17 et Android SDK build-tools (téléchargés automatiquement par Bubblewrap dans `~/.bubblewrap/`).
